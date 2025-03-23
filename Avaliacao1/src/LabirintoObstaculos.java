@@ -330,9 +330,10 @@ public class LabirintoObstaculos implements Estado, Heuristica {
             }
             resultado.append("\n");
         }
-        resultado.append("Posição Entrada: " + this.linhaEntrada + "," + this.colunaEntrada +"\n");
-        resultado.append("Posição Saida: " + this.linhaSaida + "," + this.colunaSaida +"\n");
-        return "\n"+ op + "\n" + resultado + "\n\n";
+        resultado.append("Posição Entrada 1: " + this.linhaEntrada + "," + this.colunaEntrada + "\n");
+        resultado.append("Posição Entrada 2: " + this.linhaEntrada2 + "," + this.colunaEntrada2 + "\n");
+        resultado.append("Posição Saída: " + this.linhaSaida + "," + this.colunaSaida + "\n");
+        return "\n" + op + "\n" + resultado + "\n\n";
     }
 
     public static void main(String[] a) {
