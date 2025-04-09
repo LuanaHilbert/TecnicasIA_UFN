@@ -1,14 +1,8 @@
 import random
 
 class Util:
-    letras = "abcdefghijklmnopqrstuvxwyz "
-    tamanho = len(letras)
-    
     @staticmethod
-    def gerar_palavra(n):     
-        palavra = ''
-
-        for i in range(n):
-            palavra += Util.letras[random.randrange(Util.tamanho)]
-        
-        return palavra
+    def gerar_rota():
+        rota = list(range(1, 10))  # cidades de 1 a 9
+        random.shuffle(rota)
+        return rota
