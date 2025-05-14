@@ -1,0 +1,69 @@
+Sistemas Multiagentes
+
+Sistema composto por vários agentes autônomos que interagem entre si e com o ambiente para atingir seus próprios objetivos ou um objetivo coletivo. As técnicas de resolução são divididas entre os agentes, que trabalham juntos (ou competem) para resolver o problema. A ideia nasceu em comunidades de insetos, pois trabalham juntos.
+Um agente é qualquer entidade (hardware ou software) que percebe seu ambiente por meio de sensores e age por meio de atuadores (ex: um robô que segue uma linha, um personagem de jogo, etc). Características essenciais em um agente: Autonomia (threads), Proatividade (threads com ifs de decisão), Adaptação/Flexibilidade (tratamento de erros com try-catch e mudança de estratégia com sobrecarga de métodos/predicados) e Habilidade Social (Comunicação entre agentes, via sockets ou comandos tipo broadcast, tell, send).
+
+Há inúmeras formas de estruturar esses sistemas. As mais importantes são:
+Imperativa 
+usando programação procedural ou orientada a objetos. Ex: Agentes em Java, Python ou C++ com threads, métodos e objetos.
+BDI 
+Belief = O que o agente sabe sobre o mundo
+Desire = O que o agente gostaria de fazer
+Intention= O que o agente está efetivamente tentando fazer
+Interpretador JASON interpreta agentes escritos em AgentSpeak(L), linguagem baseada em Prolog.
+
+Aplicações típicas de SMA envolvem Sistemas Persuasivos/Ubíquos, como automação residencial (Ex: Alexa, lâmpadas e fechaduras inteligentes) e automação industrial (Ex: várias máquinas  inteligentes trabalhando juntas).
+
+Exemplo Prático:
+
+Três agentes trabalhando para encontrar recursos em um ambiente. Se encontram, avisam os outros, senão, continuam procurando.
+
+class Agente extends Thread {
+    private String nome;
+    private static volatile boolean recursoEncontrado = false;
+
+    public Agente(String nome) {
+        this.nome = nome;
+    }
+
+    // Método simulado de comunicação (broadcast)
+    private void comunicar(String mensagem) {
+        System.out.println("[" + nome + "] diz: " + mensagem);
+    }
+
+    @Override
+    public void run() {
+        while (!recursoEncontrado) {
+            int chance = (int)(Math.random() * 10);  // Número aleatório entre 0 e 9
+
+            if (chance == 5) {
+                recursoEncontrado = true;
+                comunicar("Encontrei o recurso!");
+            } else {
+                comunicar("Ainda procurando...");
+            }
+
+            try {
+                Thread.sleep(500); // Simula tempo de busca
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        comunicar("Parando as buscas.");
+    }
+}
+
+public class SistemaMultiagente {
+    public static void main(String[] args) {
+        Agente a1 = new Agente("Agente 1");
+        Agente a2 = new Agente("Agente 2");
+        Agente a3 = new Agente("Agente 3");
+
+        a1.start();
+        a2.start();
+        a3.start();
+    }
+}
+
+
