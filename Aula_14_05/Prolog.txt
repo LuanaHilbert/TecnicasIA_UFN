@@ -1,0 +1,88 @@
+Listas em Prolog
+
+Listas são estruturas suportadas nativamente em Prolog. Podem conter qualquer tipo de dado (mais de um tipo na mesma lista), incluindo números, strings, ou até outras listas. São definidas entre colchetes e os elementos são separados por vírgula. 
+A lista é dividida em duas partes, head (cabeça) e tail (cauda), sendo head o primeiro elemento e tail o restante. Podemos fazer operações utilizando essa estrutura. 
+Com listas podemos utilizar os argumentos de entrada (+), saída (-), e entrada/saída (?)
+Alguns predicados já vem prontos, como:
+length(?List, ?Int): Pega o tamanho da lista. Retorna verdadeiro se o int representa o número de elementos da lista.
+member(?Elem, ?List): Verifica se o elemento está na lista. Retorna verdadeiro se Elem é membro da lista.
+append(?List1, ?List2, ?List1AndList2): Concatena listas. Retorna verdadeiro de List1AndList2 é a concatenação de List1 e List2.
+nextto(?X, ?Y, ?List): Verifica o próximo na lista. Retorna verdadeiro se Y segue X em List.
+last(?List, ?Last): Verifica o último elemento. Retorna verdadeiro se Last é o último elemento da lista.
+Podemos também executar funções recursivas (que chamam a si mesmos) utilizando os predicados.
+
+Exemplo em swish:
+
+% -----------------------
+% FATOS
+% -----------------------
+
+animal(cachorro).
+animal(gato).
+animal(coelho).
+
+% -----------------------
+% REGRAS
+% -----------------------
+
+% Um mamífero é um animal que tem pelo
+tem_pelo(cachorro).
+tem_pelo(gato).
+
+mamifero(X) :- 
+    animal(X),
+    tem_pelo(X).
+
+% -----------------------
+% PREDICADOS RECURSIVOS COM LISTAS
+% -----------------------
+
+% Tamanho da lista
+tamanho([], 0).
+tamanho([_|T], N) :- 
+    tamanho(T, N1),
+    N is N1 + 1.
+
+% Soma dos elementos da lista
+soma_lista([], 0).
+soma_lista([H|T], Soma) :-
+    soma_lista(T, SomaT),
+    Soma is H + SomaT.
+
+% Verificar se elemento está na lista (implementação manual)
+meu_member(X, [X|_]).
+meu_member(X, [_|T]) :-
+    meu_member(X, T).
+
+% Concatenar duas listas
+concatena([], L, L).
+concatena([H|T], L2, [H|R]) :-
+    concatena(T, L2, R).
+
+
+CONSULTAS DE EXEMPLO
+
+?- animal(gato)
+Resultado: true
+
+?- mamifero(gato)
+Resultado: true
+
+?- mamifero(coelho)
+Resultado: false 
+
+?- tamanho([1,2,3,4], N)
+Resultado: N = 4
+
+?- soma_lista([10,20,30], S)
+Resultado: S = 60
+
+?- meu_member(2, [1,2,3,4])
+Resultado: true
+
+?- meu_member(5, [1,2,3,4])
+Resultado: false
+
+?- concatena([1,2], [3,4], R)
+Resultado: R = [1, 2, 3, 4]
+
